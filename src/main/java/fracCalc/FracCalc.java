@@ -3,13 +3,27 @@
  */
 
 package fracCalc;
+import java.util.Scanner;
 
 public class FracCalc {
 
     public static void main(String[] args)
     {
+    	Scanner userInput = new Scanner(System.in);
+    	boolean run = true;
+    	while (run == true) {
+    		String input = userInput.nextLine();
+    		if ((input.toUpperCase()).equals("QUIT")) {
+    			run = false;
+    		} else {
+            	System.out.println(produceAnswer(input));
+    		}
+        	
+    	}
+    	
         // TODO: Read the input from the user and call produceAnswer with an equation
 
+    	userInput.close();
     }
 
     // ** IMPORTANT ** DO NOT DELETE THIS FUNCTION.  This function will be used to test your code
@@ -23,8 +37,12 @@ public class FracCalc {
     public static String produceAnswer(String input)
     {
         // TODO: Implement this function to produce the solution to the input
-
-        return "";
+    	
+    	String firstOperand = input.substring(0, input.indexOf(" "));
+    	String secondOperand = input.substring(input.indexOf("+")+2);
+    	String operator = input.substring(input.indexOf(" ") + 1, input.indexOf(secondOperand));
+    	
+        return secondOperand;
     }
 
     // TODO: Fill in the space below with any helper methods that you think you will need
