@@ -3,7 +3,7 @@
  */
 
 package fracCalc;
-import java.util.Scanner;
+import java.util.*;
 
 public class FracCalc {
 
@@ -39,12 +39,40 @@ public class FracCalc {
         // TODO: Implement this function to produce the solution to the input
     	
     	String firstOperand = input.substring(0, input.indexOf(" "));
-    	String secondOperand = input.substring(input.indexOf("+")+2);
+    	String secondOperand = input.substring(input.indexOf(" ")+3);
     	String operator = input.substring(input.indexOf(" ") + 1, input.indexOf(secondOperand));
+    	System.out.println(operator);
     	
-        return secondOperand;
+    	
+//    	int intWhole = Integer.parseInt(whole);
+//    	int intNum = Integer.parseInt(num);
+//    	int intDenom = Integer.parseInt(denom);
+        return parseFractions(secondOperand);
     }
 
+    public static String parseFractions(String operand) {
+    	String whole = "0";
+    	String num = "0";
+    	String denom = "1"; 
+    	    	
+    	if (operand.contains("/")) {
+    		num = operand.substring(operand.indexOf("_")+1, operand.indexOf("/"));
+			denom = operand.substring(operand.indexOf("/")+1, operand.length());
+			
+    		if (operand.contains("_")) {
+    			whole = operand.substring(0, operand.indexOf("_"));
+    		}
+    		
+    	}else {
+    		whole = operand;
+    	}
+    	
+    	String parsed = "whole:"+ whole +" numerator:"+ num +" denominator:"+ denom;
+    	
+    	return parsed;
+    }
+    
+    
     // TODO: Fill in the space below with any helper methods that you think you will need
 
 }
