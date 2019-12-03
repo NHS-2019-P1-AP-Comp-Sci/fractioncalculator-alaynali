@@ -40,14 +40,168 @@ public class FracCalc {
     	
     	String firstOperand = input.substring(0, input.indexOf(" "));
     	String secondOperand = input.substring(input.indexOf(" ")+3);
-    	String operator = input.substring(input.indexOf(" ") + 1, input.indexOf(secondOperand));
+    	String operator = input.substring(input.indexOf(" ") + 1, input.indexOf(" ") + 2);
     	System.out.println(operator);
+    	String firstParsed = parseFractions(firstOperand);
+    	String secondParsed = parseFractions(secondOperand);
     	
+    	int firstWhole = Integer.parseInt(firstParsed.substring(firstParsed.indexOf("w")+1, firstParsed.indexOf("n")));
+    	int firstNum = Integer.parseInt(firstParsed.substring(firstParsed.indexOf("n")+1, firstParsed.indexOf("d")));
+    	int firstDenom = Integer.parseInt(firstParsed.substring(firstParsed.indexOf("d")+1, firstParsed.length()));
+    	if (firstWhole < 0) {
+    		firstNum = 0 - firstNum;
+    	}
+    	int secondWhole = Integer.parseInt(secondParsed.substring(secondParsed.indexOf("w")+1, secondParsed.indexOf("n")));
+    	int secondNum = Integer.parseInt(secondParsed.substring(secondParsed.indexOf("n")+1, secondParsed.indexOf("d")));
+    	int secondDenom = Integer.parseInt(secondParsed.substring(secondParsed.indexOf("d")+1, secondParsed.length()));
+    	if (secondWhole < 0) {
+    		secondNum = 0 - secondNum;
+    	}
+    	int totalWhole;
+    	int totalNum;
+    	int totalDenom;
+    	String totalValue = "";
     	
-//    	int intWhole = Integer.parseInt(whole);
-//    	int intNum = Integer.parseInt(num);
-//    	int intDenom = Integer.parseInt(denom);
-        return parseFractions(secondOperand);
+    	if (operator.equals("+")) {
+    		totalWhole = firstWhole + secondWhole;
+    		System.out.println("whole " + totalWhole);
+    		
+    		if (firstDenom != secondDenom) {
+    			totalNum = (firstNum * secondDenom) + (secondNum * firstDenom);
+            	totalDenom = firstDenom * secondDenom;
+    		} else {
+    			totalNum = firstNum + secondNum;
+    			totalDenom = firstDenom;
+    		}
+    		System.out.println("num " + totalNum);
+    		System.out.println("denom " + totalDenom);
+    		
+        	if (Math.abs(totalNum) > totalDenom || Math.abs(totalNum) == totalDenom) {
+        		totalWhole += totalNum / totalDenom;
+        		totalNum -= Math.abs(totalNum / totalDenom) * totalDenom;
+        	}
+        	System.out.println("whole " + totalWhole);
+        	System.out.println("num " + totalNum);
+        	
+	    	if (totalDenom == 1) {
+	    		totalWhole += totalNum;
+	    	}
+        	System.out.println("whole " + totalWhole);
+
+	    	if (totalNum < 0) {
+	    		totalNum = 0 - totalNum;
+	    	}
+	    	if (totalNum == 0) {
+	    		totalValue += totalWhole;
+	    	} else {
+	    		totalValue += totalWhole + "_" + totalNum + "/" + totalDenom; 
+	    	}
+	    	
+    	} else if (operator.equals("-")) {
+    		totalWhole = firstWhole - secondWhole;
+    		System.out.println("whole " + totalWhole);
+    		
+    		if (firstDenom != secondDenom) {
+    			totalNum = (firstNum * secondDenom) - (secondNum * firstDenom);
+            	totalDenom = firstDenom * secondDenom;
+    		} else {
+    			totalNum = firstNum - secondNum;
+    			totalDenom = firstDenom;
+    		}
+    		System.out.println("num " + totalNum);
+    		System.out.println("denom " + totalDenom);
+    		
+        	if (Math.abs(totalNum) > totalDenom || Math.abs(totalNum) == totalDenom) {
+        		totalWhole += totalNum / totalDenom;
+        		totalNum -= Math.abs(totalNum / totalDenom) * totalDenom;
+        	}
+        	System.out.println("whole " + totalWhole);
+        	System.out.println("num " + totalNum);
+        	
+	    	if (totalDenom == 1) {
+	    		totalWhole -= totalNum;
+	    	}
+	    	System.out.println("whole " + totalWhole);
+	    	
+	    	if (totalNum < 0) {
+	    		totalNum = 0 - totalNum;
+	    	}
+	    	
+	    	if (totalNum == 0) {
+	    		totalValue += totalWhole;
+	    	} else {
+	    		totalValue += totalWhole + "_" + totalNum + "/" + totalDenom; 
+	    	}
+	    	
+    	} else if (operator.equals("*")) {
+    		
+
+    		totalWhole = ((firstWhole * firstDenom + firstNum) * (secondWhole * secondDenom + secondNum)) / (firstDenom * secondDenom);
+    		System.out.println("whole " + totalWhole);
+    		totalNum = ((firstWhole * firstDenom + firstNum) * (secondWhole * secondDenom + secondNum)) % (firstDenom * secondDenom);
+    		totalDenom = firstDenom * secondDenom;
+    		System.out.println("num " + totalNum);
+    		System.out.println("denom " + totalDenom);
+    		
+        	if (Math.abs(totalNum) > totalDenom || Math.abs(totalNum) == totalDenom) {
+        		totalWhole += totalNum / totalDenom;
+        		totalNum -= totalNum / totalDenom * totalDenom;
+        	}
+        	System.out.println("whole " + totalWhole);
+        	System.out.println("num " + totalNum);
+	    	
+	    	if (totalNum < 0) {
+	    		totalNum = 0 - totalNum;
+	    	}
+	    	
+	    	if (totalNum == 0) {
+	    		totalValue += totalWhole;
+	    	} else if (totalWhole == 0){
+	    		totalValue += totalNum + "/" + totalDenom;
+	    	} else {
+	    		totalValue += totalWhole + "_" + totalNum + "/" + totalDenom; 
+	    	}
+	    	System.out.println("value " + totalValue);
+	    	
+    	} else if (operator.equals("/")) {
+    		
+    			totalWhole = (((firstWhole * firstDenom) + firstNum) * secondDenom) / (firstDenom * ((secondWhole * secondDenom) + secondNum));
+    			System.out.println("whole "+totalWhole);
+    			totalNum = (((firstWhole * firstDenom) + firstNum) * secondDenom) % (firstDenom * ((secondWhole * secondDenom) + secondNum));
+    			totalDenom = (firstDenom * ((secondWhole * secondDenom) + secondNum));
+    			System.out.println("num " + totalNum);
+        		System.out.println("denom " + totalDenom);
+        		
+    		System.out.println("whole " + totalWhole);
+    		
+    		
+    		
+        	if (Math.abs(totalNum) > totalDenom || Math.abs(totalNum) == totalDenom) {
+        		totalWhole += totalNum / totalDenom;
+        		totalNum += Math.abs(totalNum / totalDenom) * totalDenom;
+        	}
+        	
+	    	if (totalDenom == 1) {
+	    		totalWhole /= totalNum;
+	    	} else if (totalDenom < 0) {
+	    		totalDenom = 0 - totalDenom;
+	    	}
+	    	
+	    	if (totalNum < 0) {
+	    		totalNum = 0 - totalNum;
+	    	}
+	    	
+	    	if (totalNum == 0) {
+	    		totalValue += totalWhole;
+	    	} else if (totalWhole == 0){
+	    		totalValue += totalNum + "/" + totalDenom;
+	    	} else {
+	    		totalValue += totalWhole + "_" + totalNum + "/" + totalDenom; 
+	    	}
+	    	System.out.println("value " + totalValue);
+    	}
+    	
+        return totalValue;
     }
 
     public static String parseFractions(String operand) {
@@ -67,7 +221,7 @@ public class FracCalc {
     		whole = operand;
     	}
     	
-    	String parsed = "whole:"+ whole +" numerator:"+ num +" denominator:"+ denom;
+    	String parsed = "w"+ whole +"n"+ num +"d"+ denom;
     	
     	return parsed;
     }
